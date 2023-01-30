@@ -13,12 +13,9 @@ require('dotenv').config()
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-console.log(process.env.MONGO_DB_URI)
-const MONGODB_URI = process.env.MONGO_DB_URI;
-
 const app = express();
 const store = new MongoDBStore({
-  uri: MONGODB_URI,
+  uri: process.env.MONGODB_URI,
   collection: 'sessions'
 });
 const csrfProtection = csrf();
@@ -111,7 +108,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(process.env.MONGO_DB_URI)
+  .connect(process.env.MONGODB_URI)
   .then(result => {
     app.listen(process.env.PORT || 3000);
   })
