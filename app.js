@@ -8,12 +8,13 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
+require('dotenv').config()
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const MONGODB_URI =
-  'mongodb+srv://Decryptr2:awPGhpyaZSqkG4yt@cluster0.rg76ghz.mongodb.net/shop';
+console.log(process.env.MONGO_DB_URI)
+const MONGODB_URI = process.env.MONGO_DB_URI;
 
 const app = express();
 const store = new MongoDBStore({
@@ -110,9 +111,9 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGO_DB_URI)
   .then(result => {
-    app.listen(3000);
+    app.listen(process.env.PORT || 3000);
   })
   .catch(err => {
     console.log(err);
